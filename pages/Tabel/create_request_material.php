@@ -17,7 +17,7 @@ $romawi 		= getRomawi($bulan);
 $tahun 			= date ('Y');
 $format_request	= "/RQM/".$romawi."/".$tahun;
 
-$status			= 100; //ENGGINER REQUEST MATERIAL KE PURCHASING
+$status			= 101; //ENGGINER REQUEST MATERIAL KE PURCHASING
 
 $query_request 	= mysqli_query($connect,"select max(id_request) as maxidRequest FROM request_material");
 $data_request 	= mysqli_fetch_array($query_request);
@@ -28,14 +28,18 @@ for($i = 0; $i < sizeof($nama_barang); $i++){
 	$kode_request 	= sprintf("%04s", $noUrutRequest);
 	$norequest 		= $kode_request.$format_request;
 
-	$sql = "INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]', '$created_dt')";
+	mysqli_query($connect,"INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]', '$created_dt')");
 
-	mysqli_query($connect,$sql);
 }
 
-$sql = "UPDATE formspec set status=100 where noformspec='$nopracost'";
+$query 	= mysqli_query($connect,"select * from formspec where noformspec='$nopracost' ");
+$data 	= mysqli_fetch_array($query);
 
-mysqli_query($connect,$sql);
+if ($data['status_material'] == 0) {
+	mysqli_query($connect,"UPDATE formspec set status_material=1 where noformspec='$nopracost'");
+}
+
+
 
 echo "<script>alert('Berhasil Request Material');window.location.href='edit_Form_hermetically_sealed.php?nopracost=$nopracost'</script>";
 

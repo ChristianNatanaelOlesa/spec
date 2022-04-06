@@ -206,7 +206,7 @@ if($_GET["nopracost"]){
 
 		$reject_dt	= date('Y-m-d H:i:s');
 		$reject_by	= $_SESSION['username'];
-		$status		= 103;
+		$status		= 104;
 
 		if ($_POST['supp_klari'] != '' or $_POST['harga_klari'] != '') {
 			mysqli_query($GLOBALS["___mysqli_ston"], "update request_material set supp_klari='".$_POST["supp_klari"]."', harga_klari='".$_POST["harga_klari"]."', status='$status', reject_dt='$reject_dt', reject_by='$reject_by' where norequest='$norequest'");
@@ -233,7 +233,7 @@ if($_GET["nopracost"]){
 				include_once("sambung.php");
 				$approve_dt	= date('Y-m-d H:i:s');
 				$approve_by	= $_SESSION['username'];		
-				$status		= 2;
+				$status		= 105;
 
 				mysqli_query($GLOBALS["___mysqli_ston"], "update request_material set status='$status', approve_dt='$approve_dt', approve_by='$approve_by' where norequest='$norequest'");
 

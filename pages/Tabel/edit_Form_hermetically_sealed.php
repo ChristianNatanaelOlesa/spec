@@ -2474,6 +2474,8 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                 $oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from formspec where noformspec='".$_GET["nopracost"]."'");
                 $oilDb = mysqli_fetch_assoc($oil);
                 $nopracost=$oilDb["noformspec"];
+                $status_drawing=$oilDb["status_drawing"];
+                $status_material=$oilDb["status_material"];
 
                 $query = mysqli_query($GLOBALS["___mysqli_ston"], "select a.*, b.noformspec, a.status from request_material a inner join formspec b ON a.nopracost = b.noformspec where a.nopracost = '$nopracost' order by a.norequest asc");
 
@@ -2498,9 +2500,11 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                       <td style="text-align: center"><a href="../../temp/drawing_request/<?php echo $data['nama_file'] ?>" target=\"_BLANK\">View</a></td>
                     <?php } ?>
                     <td style="text-align: center;">
-                      <?php if ($data['status'] != 2) {
+                      <?php if ($data['status_drawing'] == 'YES' and $data['nama_file'] == '') {
                              echo '<span class="badge bg-primary">ON PROGRESS</span>';
-                            }else if ($data['status'] == 2) {
+                            }else if ($data['supp_barang'] == '') {
+                             echo '<span class="badge bg-primary">ON PROGRESS</span>';
+                            }else {
                              echo '<span class="badge bg-success">COMPLETED</span>';
                             }
                       ?>
@@ -2693,8 +2697,8 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                         <tr>
                           <th style="width: 400px; text-align:center;">Nama Barang</th>
                           <th style="width: 100px; text-align:center;">Qty</th>
-                          <th style="width: 500px; text-align:center;">Detail Barang</th>
-                          <th style="width: 100px; text-align:center;">Drawing ?</th>
+                          <th style="width: 450px; text-align:center;">Detail Barang</th>
+                          <th style="width: 150px; text-align:center;">Butuh Drawing ?</th>
                           <th style="width: 100px; text-align:center;"><button type="button" class="btn btn-primary" id="btn-tambah">Tambah</button></th>
                         </tr>
                       </thead>
@@ -3914,16 +3918,16 @@ function sum() {
             $('#tbl-top-body').append(`
               <tr>
                 <td>
-                  <input type="text" id="nama_barang" name="nama_barang[]" class="form-control" style="width: 100%;">
+                  <input type="text" id="nama_barang" name="nama_barang[]" class="form-control" style="width: 100%;" required>
                 </td>
                 <td>
-                  <input type="number" id="qty_barang" name="qty_barang[]" class="form-control" style="width: 100%;">
+                  <input type="number" id="qty_barang" name="qty_barang[]" class="form-control" style="width: 100%;" required>
                 </td>
                 <td>
-                  <input type="text" id="detail_barang" name="detail_barang[]" class="form-control" style="width: 100%;">
+                  <input type="text" id="detail_barang" name="detail_barang[]" class="form-control" style="width: 100%;" required>
                 </td>
                 <td>
-                  <select class="form-control select2" name="status_drawing[]">
+                  <select class="form-control select2" name="status_drawing[]" required>
                     <option selected="selected"></option>
                     <option name="status_drawing[]" value="YES">YES</option>
                     <option name="status_drawing[]" value="NO">NO</option>
