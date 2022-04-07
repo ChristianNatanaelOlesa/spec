@@ -40,7 +40,6 @@ if($_GET["nopracost"]){
 	$notap=$oilDb["no_tap"];
 	$created=$oilDb["created"];
 	$reject_spv=$oilDb["reject_spv"];
-  $status_material = $oilDb["status_material"];
   $status_formspec = $oilDb["status"];
 	
 		switch ($type_windingx) {
@@ -91,6 +90,15 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
 	$sub_segment=$maduDb['sub_segment'];
 	$tahun=$maduDb['tahun'];
 
+  $request = mysqli_query($GLOBALS["___mysqli_ston"], "select * from request_material where nopracost='".$_GET["nopracost"]."'");
+  $reqDB = mysqli_fetch_assoc($request);
+  $status_upload  = $reqDB['status_upload'];
+  $status_supp    = $reqDB['status_supp'];
+  $status_harga   = $reqDB['status_harga'];
+  $status_drawing = $reqDB['status_drawing'];
+
+  $query_01 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(norequest) countReq from request_material where nopracost='".$_GET["nopracost"]."' and status_harga = 1 and status_supp = 1 and status_upload != 1");
+  $data_01 = mysqli_fetch_assoc($query_01);
 	
 ?>
 
@@ -2474,8 +2482,6 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                 $oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from formspec where noformspec='".$_GET["nopracost"]."'");
                 $oilDb = mysqli_fetch_assoc($oil);
                 $nopracost=$oilDb["noformspec"];
-                $status_drawing=$oilDb["status_drawing"];
-                $status_material=$oilDb["status_material"];
 
                 $query = mysqli_query($GLOBALS["___mysqli_ston"], "select a.*, b.noformspec, a.status from request_material a inner join formspec b ON a.nopracost = b.noformspec where a.nopracost = '$nopracost' order by a.norequest asc");
 
@@ -2500,9 +2506,11 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                       <td style="text-align: center"><a href="../../temp/drawing_request/<?php echo $data['nama_file'] ?>" target=\"_BLANK\">View</a></td>
                     <?php } ?>
                     <td style="text-align: center;">
-                      <?php if ($data['status_drawing'] == 'YES' and $data['nama_file'] == '') {
+                      <?php if ($data['status_drawing'] == 'YES' and $data['status_upload'] == 1) {
                              echo '<span class="badge bg-primary">ON PROGRESS</span>';
-                            }else if ($data['supp_barang'] == '') {
+                            }else if ($data['status_supp'] == 0) {
+                             echo '<span class="badge bg-primary">ON PROGRESS</span>';
+                            }else if ($data['status_harga'] == 0) {
                              echo '<span class="badge bg-primary">ON PROGRESS</span>';
                             }else {
                              echo '<span class="badge bg-success">COMPLETED</span>';
@@ -2640,12 +2648,10 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
       <a href="#" type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-req">REQUEST MATERIAL</a>
 			<a href="#" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-lg">UPLOAD DRAWING</a>
 			<input type="submit" name="closing" value="&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;" class="btn btn-success" /> 
-      <?php if ($status_formspec == 2 and $status_material == 1) { ?>
-        <button onclick="return confirm('REQUEST MATERIAL SEDANG DI PROSES OLEH PURCHASING')" class="btn btn-secondary" />RELEASE TO SUPERVISOR </button>
-      <?php } elseif ($status_formspec == 2 and $status_material == 2) { ?>
-        <button onclick="return confirm('DRAWING BELUM DI UPLOAD OLEH PURCHASING')" class="btn btn-secondary" />RELEASE TO SUPERVISOR </button>
-      <?php } elseif ($status_formspec == 2 and $status_material == 3 or $status_material == 4 or $status_material == 5) { ?>
-      <input type="submit" name="supervisor" onclick="return confirm('Pastikan semua kolom sudah terinput semua. Dan Drawing sudah terupload. Yakin mau release? ')" value="RELEASE TO SUPERVISOR" class="btn btn-secondary" /> 
+      <?php if ($status_formspec == 2 and $data_01['countReq'] != 0) { ?>
+        <input type="submit" name="supervisor" onclick="return confirm('Pastikan semua kolom sudah terinput semua. Dan Drawing sudah terupload. Yakin mau release? ')" value="RELEASE TO SUPERVISOR" class="btn btn-secondary" /> 
+      <?php } else { ?>
+      <button onclick="return confirm('REQUEST MATERIAL SEDANG DI PROSES OLEH PURCHASING. TUNGGU HINGGA STATUS REQUEST MATERIAL COMPLETED SEMUA')" class="btn btn-secondary" />RELEASE TO SUPERVISOR </button>
       <?php } ?>
 			
 		

@@ -107,7 +107,7 @@ $oilDb = mysqli_fetch_assoc($oil);
 						<td width="20%;"><div align="center"><strong>Drawing</strong></div></td>
 						<td width="5%;"><div align="center"><strong>Action</strong></div></td>
 						<?php
-						$pasienSql = "select * FROM request_material where nopracost='$oilDb[noformspec]' and status = 102 ORDER BY created_dt desc";
+						$pasienSql = "select * FROM request_material where nopracost='$oilDb[noformspec]' and status = 103 ORDER BY created_dt desc";
 						$pasienQry = mysqli_query( $server, $pasienSql)  or die ("Query pasien salah : ".mysqli_error($GLOBALS["___mysqli_ston"]));
 						$nomor  = 0; 
 						while ($pasien = mysqli_fetch_array($pasienQry)) {
@@ -134,7 +134,7 @@ $oilDb = mysqli_fetch_assoc($oil);
 						<td style="text-align: center;"><?php echo $pasien['supp_barang'];?></td>
 						<td style="text-align: center">
 							<?php if ($pasien['status_drawing'] == 'YES' and $pasien['nama_file'] != '') { ?>
-								<a href="../../temp/<?php echo $pasien['nama_file'] ?>" target=\"_BLANK\">View</a>
+								<a href="../../temp/drawing_request/<?php echo $pasien['nama_file'] ?>" target=\"_BLANK\">View</a>
 							<?php } else if ($pasien['status_drawing'] == 'NO' and $pasien['nama_file'] == '') { ?>
 								<font color="red"><b>Tidak Perlu Drawing</b></font>	
 							<?php } ?>

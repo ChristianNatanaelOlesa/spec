@@ -10,6 +10,8 @@ $nama_barang	= $_POST['nama_barang'];
 $qty_barang		= $_POST['qty_barang'];
 $detail_barang	= $_POST['detail_barang'];
 $status_drawing	= $_POST['status_drawing'];
+$belum_upload	= 1;
+$tanpa_upload	= 0;
 $created_dt		= date('Y-m-d H:i:s');
 
 $bulan 			= date('n');
@@ -28,18 +30,15 @@ for($i = 0; $i < sizeof($nama_barang); $i++){
 	$kode_request 	= sprintf("%04s", $noUrutRequest);
 	$norequest 		= $kode_request.$format_request;
 
-	mysqli_query($connect,"INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]', '$created_dt')");
+	if ($_POST['status_drawing'] == YES) {
+		mysqli_query($connect,"INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, status_upload, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]','$belum_upload', '$created_dt')");
+	}else{
+		mysqli_query($connect,"INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, status_upload, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]','$tanpa_upload', '$created_dt')");
+	}
+
+	
 
 }
-
-$query 	= mysqli_query($connect,"select * from formspec where noformspec='$nopracost' ");
-$data 	= mysqli_fetch_array($query);
-
-if ($data['status_material'] == 0) {
-	mysqli_query($connect,"UPDATE formspec set status_material=1 where noformspec='$nopracost'");
-}
-
-
 
 echo "<script>alert('Berhasil Request Material');window.location.href='edit_Form_hermetically_sealed.php?nopracost=$nopracost'</script>";
 

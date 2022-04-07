@@ -33,7 +33,7 @@
                         </thead>
                         <tbody>
                         <?php
-						$query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT DISTINCT a.noprospect, a.noformspec, a.status, a.sales, b.nopracost, b.created_dt, b.created_by FROM formspec a INNER JOIN request_material b ON a.noformspec = b.nopracost  where a.status = 2 or a.status = 100 ORDER BY b.created_dt desc ");
+						$query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT DISTINCT a.noprospect, a.noformspec, a.sales, b.nopracost, b.created_dt, b.created_by, b.status FROM formspec a INNER JOIN request_material b ON a.noformspec = b.nopracost where a.status = 2 and b.status = 103 ORDER BY b.created_dt desc ");
 						while($data=mysqli_fetch_array($query)){
 							$tanggal=$data['created_dt'];
 							$tglbaru = date('d-m-Y', strtotime($tanggal ));
@@ -56,16 +56,16 @@
 							<td style="text-align: center;"><?php echo $tglbaru; ?></td>
 							<td style="text-align: center;"><?php echo $nama_sales ?></td>
 							<td style="text-align: center;"><?php echo $nama_engineer ?></td>			
-							<td style="text-align: center;"><?php if ($data['status'] == 100) {
+							<td style="text-align: center;"><?php if ($data['status'] == 103) {
 															 	echo '<span class="badge bg-primary">ON PROGRESS</span>';
-															}else if ($data['status'] == 2){
+															}else if ($data['status'] == 105){
 																echo '<span class="badge bg-success">COMPLETED</span>';
 															}?>
 							</td>
 							<td style="text-align: center;">
-								<?php if ($data['status'] == 2) { ?>
+								<?php if ($data['status'] == 105) { ?>
 									<a href="<?php echo $link; ?>?nopracost=<?php echo $data['noformspec']; ?>" class="btn btn-xs btn-primary tipsy-kiri-atas" title='Detail'> Detail Formspec</a>	
-								<?php } elseif ($data['status'] == 100) { ?>
+								<?php } elseif ($data['status'] == 103) { ?>
 									<a href="tabel/detail_request_material.php?noprospect=<?php echo $data['noprospect']; ?>" class="btn btn-xs btn-primary tipsy-kiri-atas" title='Konfirmasi'>Detail Request</a>
 								<?php } ?>
 							</td>

@@ -206,7 +206,7 @@ if($_GET["nopracost"]){
 
 		$reject_dt	= date('Y-m-d H:i:s');
 		$reject_by	= $_SESSION['username'];
-		$status		= 104;
+		$status		= 105;
 
 		if ($_POST['supp_klari'] != '' or $_POST['harga_klari'] != '') {
 			mysqli_query($GLOBALS["___mysqli_ston"], "update request_material set supp_klari='".$_POST["supp_klari"]."', harga_klari='".$_POST["harga_klari"]."', status='$status', reject_dt='$reject_dt', reject_by='$reject_by' where norequest='$norequest'");
@@ -233,15 +233,22 @@ if($_GET["nopracost"]){
 				include_once("sambung.php");
 				$approve_dt	= date('Y-m-d H:i:s');
 				$approve_by	= $_SESSION['username'];		
-				$status		= 105;
 
-				mysqli_query($GLOBALS["___mysqli_ston"], "update request_material set status='$status', approve_dt='$approve_dt', approve_by='$approve_by' where norequest='$norequest'");
+				mysqli_query($GLOBALS["___mysqli_ston"], "update request_material set status=106, approve_dt='$approve_dt', approve_by='$approve_by' where norequest='$norequest'");
 
-				$query_approve = mysqli_query($GLOBALS["___mysqli_ston"], "select count(norequest) as countApp from request_material where nopracost='$nopracost' and status != 2");
+				$sql01 = mysqli_query($GLOBALS["___mysqli_ston"], "select * from request_material where nopracost='$nopracost'");
+				$data01 = mysqli_fetch_assoc($sql01);
+
+				if ($data01['harga_barang'] == 0) {
+					mysqli_query($GLOBALS["___mysqli_ston"], "update request_material set status=104, harga_klari='Harga Harap Diisi' where norequest='$norequest'");
+
+					echo"<script>alert('Data Sukses tersimpan');window.location.href='detail_request_material.php?noprospect=$noprospect'</script>";
+				}
+
+				$query_approve = mysqli_query($GLOBALS["___mysqli_ston"], "select count(norequest) as countApp from request_material where nopracost='$nopracost' and status != 106");
 				$data_app = mysqli_fetch_assoc($query_approve);
 
 				if ($data_app['countApp'] == 0) {
-					mysqli_query($GLOBALS["___mysqli_ston"], "update formspec set status='$status' where noformspec='$nopracost'");
 
 					echo"<script>alert('Semua Request Sudah Di Approve');window.location.href='../?p=minta_material'</script>";
 				}
