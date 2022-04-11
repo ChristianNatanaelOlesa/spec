@@ -19,15 +19,17 @@
 	<?php
 if($_GET["nopracost"]){	
 	session_start();
+
+  $username=  $_SESSION["username"];
+  $created=  $_SESSION["namalengkap"];
+  $inisial=  $_SESSION["inisial"];
 	
 	include ("koneksi.php");
 	$oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from formspec where noformspec='".$_GET["nopracost"]."'");
 	$oilDb = mysqli_fetch_assoc($oil);
 	$noprospect=$oilDb["noprospect"];
 	$nopracost=$oilDb["noformspec"];
-  $username=  $_SESSION["username"]
-	$created=  $_SESSION["namalengkap"];
-	$inisial=  $_SESSION["inisial"];
+
 	$type_cooling=$oilDb["type_cooling"];
 	$type_trafo=$oilDb["type_trafo"];
 	$service_condition=$oilDb["service_condition"];
@@ -39,6 +41,7 @@ if($_GET["nopracost"]){
 	$botolan= date("Y-m-d");
 	$notap=$oilDb["no_tap"];
 	$reject_spv=$oilDb["reject_spv"];
+  $status_formspec = $oilDb["status"];
 	
 		switch ($type_windingx) {
 				case ($type_windingx=='Cu-Cu'):
@@ -86,6 +89,12 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
 	$segment=$maduDb['segment'];
 	$sub_segment=$maduDb['sub_segment'];
 	$tahun=$maduDb['tahun'];
+
+  $query_01 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(norequest) countReq from request_material where nopracost='".$_GET["nopracost"]."' and status_supp = 1 and status_upload != 1");
+  $data_01 = mysqli_fetch_assoc($query_01);
+
+  $query_02 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jumlahTransaksi from request_material where nopracost='".$_GET["nopracost"]."'");
+  $data_02 = mysqli_fetch_assoc($query_02);
 
 	
 ?>
@@ -1983,7 +1992,7 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                 $oilDb = mysqli_fetch_assoc($oil);
                 $nopracost=$oilDb["noformspec"];
 
-                $query = mysqli_query($GLOBALS["___mysqli_ston"], "select a.*, b.noformspec, b.status from request_material a inner join formspec b ON a.nopracost = b.noformspec where a.nopracost = '$nopracost' order by a.norequest asc");
+                $query = mysqli_query($GLOBALS["___mysqli_ston"], "select * from request_material where nopracost = '$nopracost' order by norequest asc");
 
                 if(mysqli_num_rows($query) == 0){
                       echo '<tr><td colspan="6">Tidak Ada Data.</td></tr>';
@@ -2004,10 +2013,12 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                       <td style="text-align: center"><a href="../../temp/drawing_request/<?php echo $data['nama_file'] ?>" target=\"_BLANK\">View</a></td>
                     <?php } ?>
                     <td style="text-align: center;">
-                      <?php if ($data['status'] == 100) {
-                             echo '<span class="badge bg-primary">ON PROGRESS</span>';
-                            }else if ($data['status'] == 2) {
+                      <?php if ($data['status'] == 106) {
                              echo '<span class="badge bg-success">COMPLETED</span>';
+                            }else if ($data['status'] == 104) {
+                             echo '<span class="badge bg-success">COMPLETED</span>';
+                            }else {
+                             echo '<span class="badge bg-primary">IN PROGRESS</span>';
                             }
                       ?>
                     </td>
@@ -2142,7 +2153,11 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
       <a href="#" type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-req">REQUEST MATERIAL</a>
 			<a href="#" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-lg">UPLOAD DRAWING</a>
 			<input type="submit" name="closing" value="&nbsp;&nbsp;&nbsp;CLOSE&nbsp;&nbsp;&nbsp;" class="btn btn-success" /> 
-			<input type="submit" name="supervisor" " onclick="return confirm('Pastikan semua kolom sudah terinput semua. Dan Drawing sudah terupload. Yakin mau release? ')" value="RELEASE TO SUPERVISOR" class="btn btn-secondary" /> 
+			<?php if ($status_formspec == 2 and $data_01['countReq'] > 0) { ?>
+        <input type="submit" name="supervisor" onclick="return confirm('Pastikan semua kolom sudah terinput semua. Dan Drawing sudah terupload. Yakin mau release? ')" value="RELEASE TO SUPERVISOR" class="btn btn-secondary" /> 
+      <?php } else { ?>
+      <button onclick="return confirm('REQUEST MATERIAL SEDANG DI PROSES OLEH PURCHASING. TUNGGU HINGGA STATUS REQUEST MATERIAL COMPLETED SEMUA')" class="btn btn-secondary" />RELEASE TO SUPERVISOR </button>
+      <?php } ?>
 		
 			</br></br>
 
@@ -2190,9 +2205,10 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                     <table class="table table-bordered">
                       <thead>
                         <tr>
-                          <th style="width: 300px; text-align:center;">Nama Barang</th>
-                          <th style="width: 200px; text-align:center;">Qty Barang</th>
-                          <th style="width: 600px; text-align:center;">Detail Barang</th>
+                          <th style="width: 400px; text-align:center;">Nama Barang</th>
+                          <th style="width: 100px; text-align:center;">Qty</th>
+                          <th style="width: 450px; text-align:center;">Detail Barang</th>
+                          <th style="width: 150px; text-align:center;">Butuh Drawing ?</th>
                           <th style="width: 100px; text-align:center;"><button type="button" class="btn btn-primary" id="btn-tambah">Tambah</button></th>
                         </tr>
                       </thead>
@@ -2231,7 +2247,7 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                 $oilDb = mysqli_fetch_assoc($oil);
                 $nopracost=$oilDb["noformspec"];
 
-                $query = mysqli_query($GLOBALS["___mysqli_ston"], "select a.*, b.noformspec, b.status from request_material a inner join formspec b ON a.nopracost = b.noformspec where a.nopracost = '$nopracost' order by a.norequest asc");
+                $query = mysqli_query($GLOBALS["___mysqli_ston"], "select * from request_material where nopracost = '$nopracost' order by norequest asc");
 
                 if(mysqli_num_rows($query) < 1){
                       echo '<tr><td colspan="6">Tidak Ada Data.</td></tr>';
@@ -2252,13 +2268,15 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
                       <td style="text-align: center"><a href="../../temp/drawing_request/<?php echo $data['nama_file'] ?>" target=\"_BLANK\">View</a></td>
                     <?php } ?>
                     <td style="text-align: center;">
-                      <?php if ($data['status'] == 100) {
-                             echo '<span class="badge bg-primary">ON PROGRESS</span>';
-                            }else if ($data['status'] == 2) {
-                             echo '<span class="badge bg-success">COMPLETED</span>';
-                            }
-                      ?>
-                    </td>
+                    <?php if ($data['status'] == 106) {
+                       echo '<span class="badge bg-success">COMPLETED</span>';
+                      }else if ($data['status'] == 104) {
+                       echo '<span class="badge bg-success">COMPLETED</span>';
+                      }else {
+                       echo '<span class="badge bg-primary">IN PROGRESS</span>';
+                      }
+                    ?>
+            </td>
                   </tr>
 
                   <?php 
@@ -3416,13 +3434,20 @@ function sum() {
             $('#tbl-top-body').append(`
               <tr>
                 <td>
-                  <input type="text" id="nama_barang" name="nama_barang[]" class="form-control" style="width: 100%;">
+                  <input type="text" id="nama_barang" name="nama_barang[]" class="form-control" style="width: 100%;" required>
                 </td>
                 <td>
-                  <input type="number" id="qty_barang" name="qty_barang[]" class="form-control" style="width: 100%;">
+                  <input type="number" id="qty_barang" name="qty_barang[]" class="form-control" style="width: 100%;" required>
                 </td>
                 <td>
-                  <input type="text" id="detail_barang" name="detail_barang[]" class="form-control" style="width: 100%;">
+                  <input type="text" id="detail_barang" name="detail_barang[]" class="form-control" style="width: 100%;" required>
+                </td>
+                <td>
+                  <select class="form-control select2" name="status_drawing[]" required>
+                    <option selected="selected"></option>
+                    <option name="status_drawing[]" value="YES">YES</option>
+                    <option name="status_drawing[]" value="NO">NO</option>
+                  </select>
                 </td>
                 <td style="text-align:center;"><button type="button" class="btn btn-danger removeItem">Remove</button></td>
               </tr>

@@ -30,11 +30,8 @@ for($i = 0; $i < sizeof($nama_barang); $i++){
 	$kode_request 	= sprintf("%04s", $noUrutRequest);
 	$norequest 		= $kode_request.$format_request;
 
-	if ($_POST['status_drawing'] == YES) {
-		mysqli_query($connect,"INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, status_upload, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]','$belum_upload', '$created_dt')");
-	}else{
-		mysqli_query($connect,"INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, status_upload, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]','$tanpa_upload', '$created_dt')");
-	}
+	mysqli_query($connect,"INSERT INTO request_material (noprospect, nopracost, norequest, created_by, nama_barang, qty_barang, detail_barang, status, status_drawing, status_upload, created_dt) VALUES ('$noprospect', '$nopracost', '$norequest', '$created_by', '$nama_barang[$i]', '$qty_barang[$i]', '$detail_barang[$i]', '$status', '$status_drawing[$i]','$tanpa_upload', '$created_dt')");
+
 
 	
 
