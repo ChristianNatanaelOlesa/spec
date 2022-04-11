@@ -1964,7 +1964,8 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
 </div>
 </div>
 
- <div class="card">
+<?php if ($data_02['jumlahTransaksi'] > 0) { ?>
+  <div class="card">
   <div class="card-body">
 
     <div class="row">
@@ -1975,173 +1976,276 @@ $nilai_rate12 = round(($oilDb["rate_capacityx"]/(($oilDb["primary_voltage"]/1000
 
     <div class="row">
       <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th style="text-align: center">NO.</th>
-                     <th style="text-align: center;">Nama Barang</th>
-                     <th style="text-align: center;">Qty Barang</th>
-                     <th style="text-align: center;">Detail Barang</th>
-                     <th style="text-align: center;">Drawing</th>
-                     <th style="text-align: center;">Status</th>
-                    </tr>
-                  </thead>
+        <thead>
+          <tr>
+            <th style="text-align: center">NO.</th>
+           <th style="text-align: center;">Nama Barang</th>
+           <th style="text-align: center;">Qty Barang</th>
+           <th style="text-align: center;">Detail Barang</th>
+           <th style="text-align: center;">Drawing</th>
+           <th style="text-align: center;">Status</th>
+          </tr>
+        </thead>
                 
-                <?php
-                include ("koneksi.php");
-                $oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from formspec where noformspec='".$_GET["nopracost"]."'");
-                $oilDb = mysqli_fetch_assoc($oil);
-                $nopracost=$oilDb["noformspec"];
+        <?php
+        include ("koneksi.php");
+        $oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from formspec where noformspec='".$_GET["nopracost"]."'");
+        $oilDb = mysqli_fetch_assoc($oil);
+        $nopracost=$oilDb["noformspec"];
 
-                $query = mysqli_query($GLOBALS["___mysqli_ston"], "select * from request_material where nopracost = '$nopracost' order by norequest asc");
+        $query = mysqli_query($GLOBALS["___mysqli_ston"], "select * from request_material where nopracost = '$nopracost' order by norequest asc");
 
-                if(mysqli_num_rows($query) == 0){
-                      echo '<tr><td colspan="6">Tidak Ada Data.</td></tr>';
-                }else{
-                
-                $no = 1;
-                while( $data=mysqli_fetch_array($query) ){
-                ?>
-                <tbody>
-                  <tr>
-                    <td style="text-align: center;"><?php echo $no; ?></td>
-                    <td style="text-align: center;"><?php echo $data['nama_barang']; ?></td>
-                    <td style="text-align: center;"><?php echo $data['qty_barang']; ?></td>
-                    <td style="text-align: center;"><?php echo $data['detail_barang']; ?></td>
-                    <?php if ($data['nama_file'] == '') { ?>
-                      <td style="text-align: center" bgcolor="red"><a href="temp/<?php echo $data['nama_file'] ?>" target=\"_BLANK\"></a></td>
-                    <?php } else if ($data['nama_file'] !=''){ ?>
-                      <td style="text-align: center"><a href="../../temp/drawing_request/<?php echo $data['nama_file'] ?>" target=\"_BLANK\">View</a></td>
-                    <?php } ?>
-                    <td style="text-align: center;">
-                      <?php if ($data['status'] == 106) {
-                             echo '<span class="badge bg-success">COMPLETED</span>';
-                            }else if ($data['status'] == 104) {
-                             echo '<span class="badge bg-success">COMPLETED</span>';
-                            }else {
-                             echo '<span class="badge bg-primary">IN PROGRESS</span>';
-                            }
-                      ?>
-                    </td>
-                  </tr>
+        if(mysqli_num_rows($query) == 0){
+              echo '<tr><td colspan="6">Tidak Ada Data.</td></tr>';
+        }else{
+        
+        $no = 1;
+        while( $data=mysqli_fetch_array($query) ){
+        ?>
 
-                  <?php 
-                  $no++;
-                  }
-                }
-                ?>
-                </tbody>
-                
-                
-                </table>
+        <tbody>
+          <tr>
+            <td style="text-align: center;"><?php echo $no; ?></td>
+            <td style="text-align: center;"><?php echo $data['nama_barang']; ?></td>
+            <td style="text-align: center;"><?php echo $data['qty_barang']; ?></td>
+            <td style="text-align: center;"><?php echo $data['detail_barang']; ?></td>
+            <?php if ($data['nama_file'] == '') { ?>
+              <td style="text-align: center" bgcolor="red"><a href="temp/<?php echo $data['nama_file'] ?>" target=\"_BLANK\"></a></td>
+            <?php } else if ($data['nama_file'] !=''){ ?>
+              <td style="text-align: center"><a href="../../temp/drawing_request/<?php echo $data['nama_file'] ?>" target=\"_BLANK\">View</a></td>
+            <?php } ?>
+            <td style="text-align: center;">
+              <?php if ($data['status'] == 106) {
+                     echo '<span class="badge bg-success">COMPLETED</span>';
+                    }else if ($data['status'] == 104) {
+                     echo '<span class="badge bg-success">COMPLETED</span>';
+                    }else {
+                     echo '<span class="badge bg-primary">IN PROGRESS</span>';
+                    }
+              ?>
+            </td>
+          </tr>
+
+          <?php 
+          $no++;
+          }
+        }
+        ?>
+
+        </tbody>
+      </table>
     </div>
-
   </div>
 </div>
 
+<hr size="12px"><br>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">   
+      <div class="col-md-2">  
+        <label><font size="5" color="blue">12. DRAWING FILE </font> </label>
+      </div>  
+
+      <div class="col-md-7">
+          <table border="1" align="center" cellpadding="5">
+          <thead>
+          <tr>
+          <th style="text-align: center">NO.</th>
+          <th style="text-align: center;">Nama File</th>
+          <th style="text-align: center;">Upload Date</th>
+          <th style="text-align: center;">View</th>
+          <th style="text-align: center;">Hapus</th>
+          </tr>
+          </thead>
+            <?php
+            include ("koneksi.php");
+            $oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from oil_prospect where nopracost='".$_GET["nopracost"]."'");
+            $oilDb = mysqli_fetch_assoc($oil);
+            $nopracost=$oilDb["nopracost"];
+
+            $query = mysqli_query($GLOBALS["___mysqli_ston"], "select * from upload_file where nopracost = '$nopracost' order by id_file asc");
+
+            if(mysqli_num_rows($query) < 1){
+            echo '<tr><td colspan="3">Tidak Ada Data.</td></tr>';
+            }else{                
+            $no = 1;
+            while($data=mysqli_fetch_array($query)){
+            echo ' <tbody>
+            <tr>
+            <td style="text-align: center;">'.$no.'</td>
+            <td style="text-align: center;">'.$data['nama_file'].'</td>
+            <td style="text-align: center;">'.$data['upload_dt'].'</td>
+            <td style="text-align: center;"><a href="../../temp/drawing_request/'.$data['nama_file'].'" target=\"_BLANK\">Lihat File</a></td>
+            <td style="text-align: center;"><a href="hapus_pdf_edit_dry.php?id_file='.$data['id_file'].'&nopracost='.$data['nopracost'].'">Hapus File</a></td>
+            </tr>
+            <?php
+            }
+            ?>
+            </tbody>';
+            $no++;
+            }
+            }
+            ?>
+            </table>
+      </div>
+    </div>
+  </div>
+</div>
+      <?php
+      if ($reject_spv=="")
+      {
+      echo '<div class="card" style="visibility: hidden;  display:none;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <label><font size="5" color="red">12.&nbsp;ALASAN REJECT</font> </label>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-3">
+            <label><font size="5" color="red">NOTES</font></label>
+            </div>
+            <div class="col-md-8">
+              <textarea id="reject_spv" name="reject_spv"  rows="4" placeholder="General notes"  class="form-control" disabled>'.$reject_spv.'
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>'; }
+      else
+      {
+        echo '<div class="card" >
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <label><font size="5" color="red">13.&nbsp;ALASAN REJECT</font> </label>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-3">
+            <label><font size="5" color="red">NOTES</font></label>
+            </div>
+            <div class="col-md-8">
+              <textarea id="reject_spv" name="reject_spv"  rows="4" placeholder="General notes"  class="form-control" disabled>'.$reject_spv.'
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>'; }
+      ?>
+<?php } else { ?>
+<hr size="12px"><br>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">   
+      <div class="col-md-2">  
+        <label><font size="5" color="blue">11. DRAWING FILE </font> </label>
+      </div>  
+
+      <div class="col-md-7">
+          <table border="1" align="center" cellpadding="5">
+          <thead>
+          <tr>
+          <th style="text-align: center">NO.</th>
+          <th style="text-align: center;">Nama File</th>
+          <th style="text-align: center;">Upload Date</th>
+          <th style="text-align: center;">View</th>
+          <th style="text-align: center;">Hapus</th>
+          </tr>
+          </thead>
+            <?php
+            include ("koneksi.php");
+            $oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from oil_prospect where nopracost='".$_GET["nopracost"]."'");
+            $oilDb = mysqli_fetch_assoc($oil);
+            $nopracost=$oilDb["nopracost"];
+
+            $query = mysqli_query($GLOBALS["___mysqli_ston"], "select * from upload_file where nopracost = '$nopracost' order by id_file asc");
+
+            if(mysqli_num_rows($query) < 1){
+            echo '<tr><td colspan="3">Tidak Ada Data.</td></tr>';
+            }else{                
+            $no = 1;
+            while($data=mysqli_fetch_array($query)){
+            echo ' <tbody>
+            <tr>
+            <td style="text-align: center;">'.$no.'</td>
+            <td style="text-align: center;">'.$data['nama_file'].'</td>
+            <td style="text-align: center;">'.$data['upload_dt'].'</td>
+            <td style="text-align: center;"><a href="../../temp/drawing_request/'.$data['nama_file'].'" target=\"_BLANK\">Lihat File</a></td>
+            <td style="text-align: center;"><a href="hapus_pdf_edit_dry.php?id_file='.$data['id_file'].'&nopracost='.$data['nopracost'].'">Hapus File</a></td>
+            </tr>
+            <?php
+            }
+            ?>
+            </tbody>';
+            $no++;
+            }
+            }
+            ?>
+            </table>
+      </div>
+    </div>
+  </div>
+</div>
+      <?php
+      if ($reject_spv=="")
+      {
+      echo '<div class="card" style="visibility: hidden;  display:none;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <label><font size="5" color="red">12.&nbsp;ALASAN REJECT</font> </label>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-3">
+            <label><font size="5" color="red">NOTES</font></label>
+            </div>
+            <div class="col-md-8">
+              <textarea id="reject_spv" name="reject_spv"  rows="4" placeholder="General notes"  class="form-control" disabled>'.$reject_spv.'
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>'; }
+      else
+      {
+        echo '<div class="card" >
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <label><font size="5" color="red">12.&nbsp;ALASAN REJECT</font> </label>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-3">
+            <label><font size="5" color="red">NOTES</font></label>
+            </div>
+            <div class="col-md-8">
+              <textarea id="reject_spv" name="reject_spv"  rows="4" placeholder="General notes"  class="form-control" disabled>'.$reject_spv.'
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>'; }
+      ?>
+<?php } ?>
 
 
-			<hr size="12px">
-<br>
-			<div class="card">
-				<div class="card-body">
-					<div class="row">		
-						<div class="col-md-2">  
-							<label><font size="5" color="blue">12. DRAWING FILE </font> </label>
-						</div>  
-			
-						<div class="col-md-7">
-								<table border="1" align="center" cellpadding="5">
-								<thead>
-								<tr>
-								<th style="text-align: center">NO.</th>
-								<th style="text-align: center;">Nama File</th>
-								<th style="text-align: center;">Upload Date</th>
-								<th style="text-align: center;">View</th>
-								<th style="text-align: center;">Hapus</th>
-								</tr>
-								</thead>
-									<?php
-									include ("koneksi.php");
-									$oil = mysqli_query($GLOBALS["___mysqli_ston"], "select * from oil_prospect where nopracost='".$_GET["nopracost"]."'");
-									$oilDb = mysqli_fetch_assoc($oil);
-									$nopracost=$oilDb["nopracost"];
-
-									$query = mysqli_query($GLOBALS["___mysqli_ston"], "select * from upload_file where nopracost = '$nopracost' order by id_file asc");
-
-									if(mysqli_num_rows($query) < 1){
-									echo '<tr><td colspan="3">Tidak Ada Data.</td></tr>';
-									}else{                
-									$no = 1;
-									while($data=mysqli_fetch_array($query)){
-									echo ' <tbody>
-									<tr>
-									<td style="text-align: center;">'.$no.'</td>
-									<td style="text-align: center;">'.$data['nama_file'].'</td>
-									<td style="text-align: center;">'.$data['upload_dt'].'</td>
-									<td style="text-align: center;"><a href="../../temp/drawing_request/'.$data['nama_file'].'" target=\"_BLANK\">Lihat File</a></td>
-									<td style="text-align: center;"><a href="hapus_pdf_edit_dry.php?id_file='.$data['id_file'].'&nopracost='.$data['nopracost'].'">Hapus File</a></td>
-									</tr>
-									<?php
-									}
-									?>
-									</tbody>';
-									$no++;
-									}
-									}
-									?>
-									</table>
-						</div>
-					</div>
-				</div>
-			</div>
-			<?php
-			if ($reject_spv=="")
-			{
-			echo '<div class="card" style="visibility: hidden;  display:none;">
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-12">
-							<label><font size="5" color="red">12.&nbsp;ALASAN REJECT</font> </label>
-						</div>
-					</div>
-			
-					<div class="row">
-						<div class="col-md-1">
-						</div>
-						<div class="col-md-3">
-						<label><font size="5" color="red">NOTES</font></label>
-						</div>
-						<div class="col-md-8">
-							<textarea id="reject_spv" name="reject_spv"  rows="4" placeholder="General notes"  class="form-control" disabled>'.$reject_spv.'
-							</textarea>
-						</div>
-					</div>
-				</div>
-			</div>'; }
-			else
-			{
-				echo '<div class="card" >
-				<div class="card-body">
-					<div class="row">
-						<div class="col-md-12">
-							<label><font size="5" color="red">12.&nbsp;ALASAN REJECT</font> </label>
-						</div>
-					</div>
-			
-					<div class="row">
-						<div class="col-md-1">
-						</div>
-						<div class="col-md-3">
-						<label><font size="5" color="red">NOTES</font></label>
-						</div>
-						<div class="col-md-8">
-							<textarea id="reject_spv" name="reject_spv"  rows="4" placeholder="General notes"  class="form-control" disabled>'.$reject_spv.'
-							</textarea>
-						</div>
-					</div>
-				</div>
-			</div>'; }
-			?>
 
 
 			<div class="form-actions margin-bottom" style="text-align:center;">			
