@@ -22,6 +22,8 @@ if (empty($_SESSION['username']) AND empty($_SESSION['password'])) {
     <link href="../assets/css/custom.css" rel="stylesheet" />
     <link href='../http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
+
+
     <!-- TABLE STYLES-->
     <link href="../assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
 </head>
@@ -194,7 +196,8 @@ if (empty($_SESSION['username']) AND empty($_SESSION['password'])) {
                             </li> 
 							 <li>
                                 <a href="?p=minta_koreksi"><i class="fa fa-circle-o "></i>Permintaan Koreksi</a>
-                            </li> 
+                            </li>
+                            
                            
                         </ul>
                     </li> 
@@ -239,6 +242,12 @@ if (empty($_SESSION['username']) AND empty($_SESSION['password'])) {
                             </li> 
 							 <li>
                                 <a href="?p=minta_koreksi"><i class="fa fa-circle-o "></i>Permintaan Koreksi</a>
+                            </li>
+                            <li>
+                                <a href="?p=trafo_oil_std"><i class="fa fa-circle-o "></i>Trafo Oil Standard</a>
+                            </li>
+                            <li>
+                                <a href="?p=trafo_dry_std"><i class="fa fa-circle-o "></i>Trafo Dry Standard</a>
                             </li> 
                            
                         </ul>

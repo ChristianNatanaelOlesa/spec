@@ -64,4 +64,20 @@ elseif ($page=='minta_koreksi') {
 elseif ($page=='form_spec_reject_spv') {
 	include 'tabel/formspec_reject_spv.php';
 }
+
+
+
+//TAMBAHAN CHRIST (25 May 2022)
+elseif ($page=='trafo_oil_std') {
+	include 'tabel/trafo_oil_std.php';
+}
+elseif ($page=='trafo_dry_std') {
+	include 'tabel/trafo_dry_std.php';
+}
+elseif ($page=='create_trafo_oil_std') {
+	include 'tabel/create_trafo_oil_std.php';
+}
+elseif ($page=='delete_trafo_oil_std') {
+	include 'tabel/delete_trafo_oil_std.php';
+}
 ?>

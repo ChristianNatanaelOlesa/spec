@@ -81,7 +81,7 @@ if($_GET["nopracost"]){
   <div class="row">
     <div class="col-sm-6">
       <br>
-      <img src="../../assets/img/logo.png" style="width:80%" alt="Logo-Trafindo">
+      <img src="assets/img/logo.png" style="width:80%" alt="Logo-Trafindo">
     </div>    
 
     <div class="col-sm-6">
