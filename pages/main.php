@@ -71,13 +71,30 @@ elseif ($page=='form_spec_reject_spv') {
 elseif ($page=='trafo_oil_std') {
 	include 'tabel/trafo_oil_std.php';
 }
-elseif ($page=='trafo_dry_std') {
-	include 'tabel/trafo_dry_std.php';
-}
 elseif ($page=='create_trafo_oil_std') {
 	include 'tabel/create_trafo_oil_std.php';
 }
+
+elseif ($page=='update_trafo_oil_std') {
+	include 'tabel/update_trafo_oil_std.php';
+}
+
 elseif ($page=='delete_trafo_oil_std') {
 	include 'tabel/delete_trafo_oil_std.php';
+}
+
+elseif ($page=='trafo_dry_std') {
+	include 'tabel/trafo_dry_std.php';
+}
+elseif ($page=='create_trafo_dry_std') {
+	include 'tabel/create_trafo_dry_std.php';
+}
+
+elseif ($page=='update_trafo_dry_std') {
+	include 'tabel/update_trafo_dry_std.php';
+}
+
+elseif ($page=='delete_trafo_dry_std') {
+	include 'tabel/delete_trafo_dry_std.php';
 }
 ?>

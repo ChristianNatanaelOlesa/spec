@@ -1,7 +1,7 @@
 <?php
     include('connect.php');
 
-    $query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM ms_trafo_std_oil ");
+    $query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM ms_trafo_std_dry ");
     $tester=mysqli_fetch_array($query);
 ?>
 
@@ -33,21 +33,21 @@
         <h4 class="modal-title">FORM TAMBAH TRAFO</h4>
       </div>
       <div class="modal-body">
-		<form class="form-horizontal" name="form_add_trafo_oil_std" action="?p=create_trafo_oil_std" method="post" enctype="multipart/form-data">
+		<form class="form-horizontal"  action="?p=create_trafo_dry_std" method="post" enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-3">
 				  <label>Kode FG</label>
 				  <input type="text" name="kode_fg" class="form-control" required>  
 				</div>
 
-				<div class="col-md-2">
+				<div class="col-md-3">
 				  <label>kVA</label>
-				  <input type="number" min="1" name="kva" class="form-control">  
+				  <input type="number" min="1" name="kva" class="form-control" required>  
 				</div>
 
-				<div class="col-md-2">
+				<div class="col-md-3">
 				  <label>Winding</label>
-				  <select id="winding" name="winding" class="form-control" style="width: 100%;">
+				  <select id="winding" name="winding" class="form-control" style="width: 100%;" required>
                       <option name="winding" value="Al-Al">Al-Al</option>
                       <option name="winding" value="Cu-Cu">Cu-Cu</option>
                       <option name="winding" value="Al-Cu">Al-Cu</option>
@@ -57,7 +57,7 @@
 
 				<div class="col-md-3">
 				  <label>Vektor Group</label>
-				  <select id="vector_group" name="vector_group" class="form-control" data-placeholder="Service Condition" style="width: 100%;">
+				  <select id="vector_group" name="vector_group" class="form-control" data-placeholder="Service Condition" style="width: 100%;" required>
                       <?php
                       	include('connect.php');
 
@@ -75,31 +75,31 @@
 			<div class="row">
 				<div class="col-md-3">
 				  <label>Spec</label>
-				  <select id="spec" name="spec" class="form-control" style="width: 100%;">
+				  <select id="spec" name="spec" class="form-control" style="width: 100%;" required>
                       <option name="spec" value="1">YES</option>
                       <option name="spec" value="0">NO</option>
                   </select>  
 				</div>
 
-				<div class="col-md-2">
+				<div class="col-md-3">
 				  <label>OD</label>
-				  <select id="od" name="od" class="form-control" style="width: 100%;">
+				  <select id="od" name="od" class="form-control" style="width: 100%;" required>
                       <option name="od" value="1">YES</option>
                       <option name="od" value="0">NO</option>
                   </select>  
 				</div>
 
-				<div class="col-md-2">
+				<div class="col-md-3">
 				  <label>NP</label>
-				  <select id="np" name="np" class="form-control" style="width: 100%;">
+				  <select id="np" name="np" class="form-control" style="width: 100%;" required>
                       <option name="np" value="1">YES</option>
                       <option name="np" value="0">NO</option>
                   </select>  
 				</div>
 
-				<div class="col-md-2">
+				<div class="col-md-3">
 				  <label>Wiring</label>
-				  <select id="wiring" name="wiring" class="form-control" style="width: 100%;">
+				  <select id="wiring" name="wiring" class="form-control" style="width: 100%;" required>
                       <option name="wiring" value="1">YES</option>
                       <option name="wiring" value="0">NO</option>
                   </select>  
@@ -131,29 +131,35 @@
 					<table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>
-								<th width="50px"><strong>KODE FG</strong></th>
-								<th width="50px">kVA</th>
-								<th width="100px" >Service Condition</th>
-								<th width="150px"><strong>Vector Group</strong></th>
-								<th width="28px"><strong>Winding</strong></th>
-								<th width="85px"><strong>Aksi</strong></th>
+								<th style="width:5%"><strong>KODE FG</strong></th>
+								<th style="width:5%">kVA</th>
+								<th style="width:5%"><strong>VG</strong></th>
+								<th style="width:5%"><strong>Winding</strong></th>
+								<th style="width:5%"><strong>Spec</strong></th>
+								<th style="width:5%"><strong>OD</strong></th>
+								<th style="width:5%"><strong>NP</strong></th>
+								<th style="width:5%"><strong>Wiring</strong></th>
+								<th style="width:5%"><strong>Aksi</strong></th>
                             </tr>
                         </thead>
 
                         <tbody>
                         <?php
-						$query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM ms_trafo_std_oil ");
+						$query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM ms_trafo_std_dry ");
 
 						while($data=mysqli_fetch_array($query)){
 						?>
                            	<tr>
 								<td><?php echo $data['kode_fg'];?></td>
-								<td><?php echo $data['kva'];?></td>																					
-								<td><?php echo $data['serv_condition'];?></td>
+								<td><?php echo $data['kva'];?></td>
 								<td><?php echo $data['vector_group'];?></td>
 								<td><?php echo $data['winding'];?></td>
+								<td><?php if ($data['spec'] == 1) { echo "YES";} else {echo "NO";}?></td>
+	                            <td><?php if ($data['od'] == 1) { echo "YES";} else {echo "NO";}?></td>
+	                            <td><?php if ($data['np'] == 1) { echo "YES";} else {echo "NO";}?></td>
+	                            <td><?php if ($data['wiring'] == 1) { echo "YES";} else {echo "NO";}?></td>
 								<td>
-									<a href="tabel/delete_trafo_oil_std.php?kode_fg=<?php echo $data['kode_fg']; ?> " onclick="return confirm('Yakin mau dihapus? ')" class="btn btn-xs btn-danger tipsy-kiri-atas" title='Hapus'> Hapus </a>
+									<a href="tabel/delete_trafo_dry_std.php?kode_fg=<?php echo $data['kode_fg']; ?> " onclick="return confirm('Yakin mau dihapus? ')" class="btn btn-xs btn-danger tipsy-kiri-atas" title='Hapus'> Hapus </a>
 									<button type="button" class="btn btn-xs btn-warning tipsy-kiri-atas" data-toggle="modal" data-target="#modal-edit-<?php echo $data['kode_fg'] ?>">
 							         	Edit
 							      	</button>
@@ -169,36 +175,16 @@
 								        <h4 class="modal-title">EDIT TRAFO</h4>
 								      </div>
 								      <div class="modal-body">
-										<form class="form-horizontal" name="form_update_trafo_oil_std" action="?p=update_trafo_oil_std" method="post" enctype="multipart/form-data">
+										<form class="form-horizontal" action="?p=update_trafo_dry_std" method="post" enctype="multipart/form-data">
 											<div class="row">
 												<div class="col-md-3">
 												  <label>Kode FG</label>
-												  <input type="text" name="kode_fg" class="form-control" value="<?php echo $data['kode_fg'] ?>">  
+												  <input type="text" name="kode_fg" class="form-control" value="<?php echo $data['kode_fg'] ?>" readonly>  
 												</div>
 
-												<div class="col-md-2">
+												<div class="col-md-3">
 												  <label>kVA</label>
 												  <input type="number" min="1" name="kva" class="form-control" value="<?php echo $data['kva'] ?>">  
-												</div>
-
-												<div class="col-md-2">
-												  <label>Service Condition</label>
-												  <select id="serv_condition" name="serv_condition" class="form-control" style="width: 100%;">
-										  			  <option selected="selected" value="<?php echo $data['serv_condition'] ?>"><?php echo $data['serv_condition'] ?></option>
-								                      <option name="serv_condition" value="Outdoor">Outdoor</option>
-								                      <option name="serv_condition" value="Indoor">Indoor</option>
-								                  </select>  
-												</div>
-
-												<div class="col-md-2">
-												  <label>Winding</label>
-												  <select id="winding" name="winding" class="form-control" style="width: 100%;">
-												  	  <option selected="selected" value="<?php echo $data['winding'] ?>"><?php echo $data['winding'] ?></option>
-								                      <option name="winding" value="Al-Al">Al-Al</option>
-								                      <option name="winding" value="Cu-Cu">Cu-Cu</option>
-								                      <option name="winding" value="Al-Cu">Al-Cu</option>
-								                      <option name="winding" value="Cu-Al">Cu-Cu</option>
-								                  </select>  
 												</div>
 
 												<div class="col-md-3">
@@ -215,7 +201,18 @@
 								                      }?>
 							                      </select>  
 												</div>
-											</div>
+
+												<div class="col-md-3">
+													  <label>Winding</label>
+													  <select id="winding" name="winding" class="form-control" style="width: 100%;">
+													  	  <option selected="selected" value="<?php echo $data['winding'] ?>"><?php echo $data['winding'] ?></option>
+									                      <option name="winding" value="Al-Al">Al-Al</option>
+									                      <option name="winding" value="Cu-Cu">Cu-Cu</option>
+									                      <option name="winding" value="Al-Cu">Al-Cu</option>
+									                      <option name="winding" value="Cu-Al">Cu-Cu</option>
+									                  </select>  
+													</div>
+												</div>
 
 											<br>
 
@@ -235,7 +232,7 @@
 								                  </select>  
 												</div>
 
-												<div class="col-md-2">
+												<div class="col-md-3">
 												  <label>OD</label>
 												  <select id="od" name="od" class="form-control" style="width: 100%;">
 												  	<option selected="selected" value="<?php echo $data['od'] ?>">
@@ -250,7 +247,7 @@
 								                  </select>  
 												</div>
 
-												<div class="col-md-2">
+												<div class="col-md-3">
 												  <label>NP</label>
 												  <select id="np" name="np" class="form-control" style="width: 100%;">
 												  	<option selected="selected" value="<?php echo $data['np'] ?>">
@@ -265,37 +262,20 @@
 								                  </select>  
 												</div>
 
-												<div class="col-md-2">
-												  <label>HV Bushing</label>
-												  <select id="hv_bushing" name="hv_bushing" class="form-control" style="width: 100%;">
-												  	<option selected="selected" value="<?php echo $data['hv_bushing'] ?>">
-												  		<?php if ($data['hv_bushing'] == 0) {
-													  		echo "NO";
-													  	}else{
-													  		echo "YES";
-													  	}  ?>
-												  	</option>
-								                      <option name="hv_bushing" value="1">YES</option>
-								                      <option name="hv_bushing" value="0">NO</option>
-								                  </select>  
-												</div>
-
 												<div class="col-md-3">
-												  <label>LV Bushing</label>
-												  <select id="lv_bushing" name="lv_bushing" class="form-control" style="width: 100%;">
-												  	<option selected="selected" value="<?php echo $data['lv_bushing'] ?>">
-												  		<?php if ($data['lv_bushing'] == 0) {
+												  <label>Wiring</label>
+												  <select id="wiring" name="wiring" class="form-control" style="width: 100%;">
+												  	<option selected="selected" value="<?php echo $data['wiring'] ?>">
+												  		<?php if ($data['wiring'] == 0) {
 													  		echo "NO";
 													  	}else{
 													  		echo "YES";
 													  	}  ?>
 												  	</option>
-								                      <option name="lv_bushing" value="1">YES</option>
-								                      <option name="lv_bushing" value="0">NO</option>
+								                      <option name="wiring" value="1">YES</option>
+								                      <option name="wiring" value="0">NO</option>
 								                  </select>  
-												</div>
-
-												
+												</div>										
 								            </div>
 
 
