@@ -2,7 +2,7 @@
 
 $server="localhost";
 $username="root";
-$pw="";
+$pw="Neoseeker96";
 $db="prospect";
 $connect=($GLOBALS["___mysqli_ston"] = mysqli_connect($server, $username, $pw));
 

@@ -6,7 +6,7 @@
 */
     $host   ="localhost";
     $user ="root";
-    $password ="";
+    $password ="Neoseeker96";
     $db ="prospect"; 
     
     $config =  mysqli_connect($host, $user, $password,$db);
