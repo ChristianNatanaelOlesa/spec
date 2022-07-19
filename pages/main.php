@@ -4,6 +4,9 @@ $page=isset($_GET['p']) ? $_GET['p'] : 'home';
 if($page=='home'){
 	include 'home.php';
 }
+elseif ($page=='home2') {
+	include 'home2.php';
+}
 elseif ($page=='target') {
 	include 'tabel/target.php';
 }
