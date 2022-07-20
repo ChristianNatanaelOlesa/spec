@@ -4,17 +4,12 @@ error_reporting(0);
 date_default_timezone_set('Asia/Jakarta');
 include "connect.php";
 
-if (isset($_POST['fetchval'])) {
+if (isset($_POST['tanggal_to'])) {
 
-  $bulan = $_POST['fetchval'];
+  $bulan = substr($_POST['tanggal_to'],5,2);
+  $tahun = substr($_POST['tanggal_to'],0,4);
 
-  if ($_POST['tahun'] == '') {
-    $tahun = date('Y');
-  } else {
-    $tahun = $_POST['tahun'];
-  }
-  
-  $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
+  $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
   $data_0  = mysqli_fetch_array($query_0);
 
   $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 2 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
@@ -83,11 +78,11 @@ if (isset($_POST['fetchval'])) {
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-4">
-        <h3>DASHBOARD PROSPECT</h3>		  
+      <div class="col-sm-5">
+        <h3>DASHBOARD PROSPECT (PARTIAL)</h3>		  
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-5">
         &nbsp;  
       </div>
 
@@ -116,40 +111,18 @@ if (isset($_POST['fetchval'])) {
       <div class="col-sm-8">
         <form action="index.php?p=home" method="post" class="form-horizontal">
           <div class="form-group row">
+            
             <div class="col-sm-4">
               &nbsp;
             </div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <label class="col-sm-1 col-form-label">BULAN</label>
-            <div class="col-sm-2">
-              <select class="form-control" name="fetchval" id="fetchval" required>
-                <option selected="selected" value=""></option>
-                <?php
-                  $query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM ms_bulan ORDER BY id_bulan asc ");
-                  while($data=mysqli_fetch_array($query)){
 
-                  echo "<option name='fetchval' value='".$data['nomor_bulan']."'>".$data['nama_bulan']."</option>";
-                  }
-                ?>
-              </select>
+            <label class="col-sm-2 col-form-label">INPUT DATE</label>
+            <div class="col-sm-4">
+              <input class="form-control" type="month" name="tanggal_to" id="tanggal_to" required>
             </div>
 
-            <label class="col-sm-1 col-form-label">TAHUN</label>
             <div class="col-sm-2">
-              <select class="form-control" name="tahun" id="tahun" required>
-                <option selected="selected" value=""></option>
-                <?php
-                  $query=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT DISTINCT tahun FROM h_rpospect");
-                  while($data=mysqli_fetch_array($query)){
-
-                  echo "<option name='tahun' value='".$data['tahun']."'>".$data['tahun']."</option>";
-                  }
-                ?>
-              </select>
-            </div>
-
-            <div class="col-sm-1">
-              <input type="submit" class="btn btn-primary" value="Submit">
+              <input type="submit" class="btn btn-primary" style="width:100%;" value="Submit">
             </div>
             
           </div>

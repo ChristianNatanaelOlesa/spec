@@ -4,44 +4,46 @@ error_reporting(0);
 date_default_timezone_set('Asia/Jakarta');
 include "connect.php";
 
-if (isset($_POST['tgl_from'])) {
+if (isset($_POST['tanggal_to'])) {
 
-  $tgl_from = $_POST['tgl_from'];
-  $tgl_to   = $_POST['tgl_to'];
+  $tanggal_to   = $_POST['tanggal_to'];
 
-  $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to'");
+  $min_date = mysqli_query($GLOBALS["___mysqli_ston"], "select month(min(tgl_prospect)) as minBulan, year(min(tgl_prospect)) as minYear from h_rpospect");
+  $date_min = mysqli_fetch_array($min_date);
+  $minBulanTahun = $date_min['minBulan'].'-'.$date_min['minYear'];
+
+  $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as totalData from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 0 or status = 3 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_0  = mysqli_fetch_array($query_0);
+  $data_000 = $data_0['totalData'];
 
-  $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to'");
-  $data_00  = mysqli_fetch_array($query_00);
-
-  $data_000 = $data_0['jmlh_00'];
-
-  $query_01 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_01 from h_rpospect WHERE status = 1 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to' ");
+  $query_01 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as jmlh_01 from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 1 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_01  = mysqli_fetch_array($query_01);
 
-  $query_0100 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_0100 from h_rpospect WHERE status = 100 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to' ");
+  $query_0100 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as jmlh_0100 from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 100 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_0100  = mysqli_fetch_array($query_0100);
 
-  $query_0101 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_0101 from h_rpospect WHERE status = 101 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to' ");
+  $query_0101 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as jmlh_0101 from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 101 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_0101  = mysqli_fetch_array($query_0101);
 
-  $query_02 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_02 from h_rpospect WHERE status = 2 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to' ");
+  $query_02 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as jmlh_02 from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 2 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_02  = mysqli_fetch_array($query_02);
 
-  $query_0200 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_0200 from h_rpospect WHERE status = 200 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to' ");
+  $query_0200 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as jmlh_0200 from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 200 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_0200  = mysqli_fetch_array($query_0200);
 
-  $query_03 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_03 from h_rpospect WHERE status = 3 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to' ");
+  $query_03 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as jmlh_03 from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 3 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_03  = mysqli_fetch_array($query_03);
 
-  $query_04 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_04 from h_rpospect WHERE status = 4 and tgl_prospect BETWEEN '$tgl_from' and '$tgl_to' ");
+  $query_04 = mysqli_query($GLOBALS["___mysqli_ston"], "select coalesce(sum(a.jmlhData),0) as jmlh_04 from (select date_format(tgl_prospect, '%Y-%m') as monthyear, count(*) as jmlhData from h_rpospect where status = 4 group by date_format(tgl_prospect, '%Y-%m')) as a where a.monthyear between '$minBulanTahun' and '$tanggal_to'");
   $data_04  = mysqli_fetch_array($query_04);
 
 } else {
 
   $bulan = date('n');
   $tahun = date('Y');
+
+  $date_min = mysqli_fetch_array($min_date);
+  $minBulanTahun = $date_min['minBulan'].'-'.$date_min['minYear'];
   
   $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
   $data_0  = mysqli_fetch_array($query_0);
@@ -79,11 +81,11 @@ if (isset($_POST['tgl_from'])) {
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-4">
-        <h3>DASHBOARD PROSPECT</h3>     
+      <div class="col-sm-6">
+        <h3>DASHBOARD PROSPECT (AKUMULATIF)</h3>     
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-4">
         &nbsp;  
       </div>
 
@@ -113,9 +115,13 @@ if (isset($_POST['tgl_from'])) {
         <form action="index.php?p=home2" method="post" class="form-horizontal">
           <div class="form-group row">
 
+            <div class="col-sm-4">
+              &nbsp;
+            </div>
+
             <label class="col-sm-2 col-form-label">INPUT DATE</label>
             <div class="col-sm-4">
-              <input class="form-control" type="month" name="tgl_to" id="tgl_to" required>
+              <input class="form-control" type="month" name="tanggal_to" id="tanggal_to" required>
             </div>
 
             <div class="col-sm-2">
