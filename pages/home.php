@@ -9,10 +9,14 @@ if (isset($_POST['tanggal_to'])) {
   $bulan = substr($_POST['tanggal_to'],5,2);
   $tahun = substr($_POST['tanggal_to'],0,4);
 
+  // echo 'Input :'.$_POST['tanggal_to'].'<br>';
+  // echo 'Bulan :'.$bulan.'<br>';
+  // echo 'Tahun :'.$tahun.'<br>';
+
   $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
   $data_0  = mysqli_fetch_array($query_0);
 
-  $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 2 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
+  $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 3 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
   $data_00  = mysqli_fetch_array($query_00);
 
   $data_000 = $data_0['jmlh_00'] + $data_00['jmlh_00'];
@@ -45,7 +49,7 @@ if (isset($_POST['tanggal_to'])) {
   $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
   $data_0  = mysqli_fetch_array($query_0);
 
-  $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
+  $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 3 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
   $data_00  = mysqli_fetch_array($query_00);
 
   $data_000 = $data_0['jmlh_00'] + $data_00['jmlh_00'];
@@ -82,24 +86,25 @@ if (isset($_POST['tanggal_to'])) {
         <h3>DASHBOARD PROSPECT (PARTIAL)</h3>		  
       </div>
 
-      <div class="col-sm-5">
-        &nbsp;  
-      </div>
+      <div class="col-sm-7">
+        <div class="form-group row">
+            
+          <div class="col-sm-10">
+            &nbsp;
+          </div>
 
-      <div class="col-sm-2">
-
-        <div class="input-group input-group-lg mb-3">
-          <div class="input-group-prepend">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="col-sm-2">
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-              Action
+            Action
             </button>
             <ul class="dropdown-menu">
               <li class="dropdown-item"><a href="index.php?p=home2">Akumulatif</a></li>
               <li class="dropdown-item"><a href="index.php?p=home">Partial</a></li>
             </ul>
           </div>
-        </div>   
+        
+        </div>
       </div>
 
     </div>
@@ -112,19 +117,15 @@ if (isset($_POST['tanggal_to'])) {
         <form action="index.php?p=home" method="post" class="form-horizontal">
           <div class="form-group row">
             
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               &nbsp;
             </div>
 
             <label class="col-sm-2 col-form-label">INPUT DATE</label>
             <div class="col-sm-4">
-              <input class="form-control" type="month" name="tanggal_to" id="tanggal_to" required>
+              <input class="form-control" type="month" name="tanggal_to" id="tanggal_to" onchange="this.form.submit()" required>
             </div>
-
-            <div class="col-sm-2">
-              <input type="submit" class="btn btn-primary" style="width:100%;" value="Submit">
-            </div>
-            
+          
           </div>
         </form>
       </div>

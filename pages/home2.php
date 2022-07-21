@@ -81,28 +81,29 @@ if (isset($_POST['tanggal_to'])) {
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-6">
+      <div class="col-sm-5">
         <h3>DASHBOARD PROSPECT (AKUMULATIF)</h3>     
       </div>
 
-      <div class="col-sm-4">
-        &nbsp;  
-      </div>
+      <div class="col-sm-7">
+        <div class="form-group row">
+            
+          <div class="col-sm-10">
+            &nbsp;
+          </div>
 
-      <div class="col-sm-2">
-
-        <div class="input-group input-group-lg mb-3">
-          <div class="input-group-prepend">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div class="col-sm-2">
+            &nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-              Action
+            Action
             </button>
             <ul class="dropdown-menu">
               <li class="dropdown-item"><a href="index.php?p=home2">Akumulatif</a></li>
               <li class="dropdown-item"><a href="index.php?p=home">Partial</a></li>
             </ul>
           </div>
-        </div>   
+        
+        </div>
       </div>
 
     </div>
@@ -115,18 +116,15 @@ if (isset($_POST['tanggal_to'])) {
         <form action="index.php?p=home2" method="post" class="form-horizontal">
           <div class="form-group row">
 
-            <div class="col-sm-4">
+            <div class="col-sm-6">
               &nbsp;
             </div>
 
             <label class="col-sm-2 col-form-label">INPUT DATE</label>
             <div class="col-sm-4">
-              <input class="form-control" type="month" name="tanggal_to" id="tanggal_to" required>
+              <input class="form-control" type="month" name="tanggal_to" id="tanggal_to" onchange="this.form.submit()" required>
             </div>
 
-            <div class="col-sm-2">
-              <input type="submit" class="btn btn-primary" style="width:100%;" value="Submit">
-            </div>
             
           </div>
         </form>
