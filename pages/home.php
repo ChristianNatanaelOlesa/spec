@@ -16,8 +16,9 @@ if (isset($_POST['tanggal_to'])) {
   $query_0 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
   $data_0  = mysqli_fetch_array($query_0);
 
-  $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 3 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
+  $query_00 = mysqli_query($GLOBALS["___mysqli_ston"], "select count(*) as jmlh_00 from h_rpospect where status = 2 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun'");
   $data_00  = mysqli_fetch_array($query_00);
+
 
   $data_000 = $data_0['jmlh_00'] + $data_00['jmlh_00'];
 
@@ -512,46 +513,48 @@ if (isset($_POST['tanggal_to'])) {
         {
           data: [
           <?php 
-            $q_00 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_00 from h_rpospect WHERE status = 0 or status=2");
+            $q_00 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data_00  = mysqli_fetch_array($q_00);
-            echo $data_00['test_00'];
+            $q_000 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_00 from h_rpospect where status = 0 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
+            $data_000  = mysqli_fetch_array($q_000);
+            echo $data_00['test_00']+$data_000['test_00'];
           ?>,
 
           <?php 
-            $q_0100 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_0100 from h_rpospect WHERE status = 100");
+            $q_0100 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_0100 from h_rpospect where status = 100 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data0100  = mysqli_fetch_array($q_0100);
             echo $data0100['test_0100'];
           ?>,
 
           <?php 
-            $q_01 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_01 from h_rpospect WHERE status = 1");
+            $q_01 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_01 from h_rpospect where status = 1 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data01  = mysqli_fetch_array($q_01);
             echo $data01['test_01'];
           ?>,
 
           <?php 
-            $q_02 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_02 from h_rpospect WHERE status = 2");
+            $q_02 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_02 from h_rpospect where status = 2 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data02  = mysqli_fetch_array($q_02);
             echo $data02['test_02'];
           ?>,
 
           <?php 
-            $q_03 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_03 from h_rpospect WHERE status = 3");
+            $q_03 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_03 from h_rpospect where status = 3 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data03  = mysqli_fetch_array($q_03);
             echo $data03['test_03'];
           ?>,
 		   <?php 
-            $q_0200 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_0200 from h_rpospect WHERE status = 200");
+            $q_0200 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_0200 from h_rpospect where status = 200 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data0200  = mysqli_fetch_array($q_0200);
             echo $data0200['test_0200'];
           ?>,
 		    <?php 
-            $q_0101 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_0101 from h_rpospect WHERE status = 101");
+            $q_0101 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_0101 from h_rpospect where status = 101 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data0101  = mysqli_fetch_array($q_0101);
             echo $data0101['test_0101'];
           ?>,
 		  <?php 
-            $q_04 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_04 from h_rpospect WHERE status = 4");
+            $q_04 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT count(*) as test_04 from h_rpospect where status = 4 and MONTH(tgl_prospect) = '$bulan' and tahun = '$tahun' ");
             $data04  = mysqli_fetch_array($q_04);
             echo $data04['test_04'];
           ?>
