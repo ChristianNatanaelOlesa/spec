@@ -570,7 +570,7 @@ if (empty($_SESSION['username']) AND empty($_SESSION['password'])) {
     $('#tbl_new_prospect').DataTable({
       "paging": true,
       "lengthChange": false,
-      "searching": false,
+      "searching": true,
       "ordering": true,
       "info": true,
       "autoWidth": false,
